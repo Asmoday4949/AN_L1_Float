@@ -7,6 +7,8 @@ function Float(num, bits)
   this.sign = undefined;
   this.exponent = [];
   this.fraction = [];
+  this.num = num;
+  this.bits = bits;
 
   this.build();
 }
@@ -15,7 +17,21 @@ Float.prototype = {
   /*calculate the float table of bits*/
   this.build: function()
   {
+    if(this.num >= 0)
+    {
+      this.sign = false;
+    }
+    else
+    {
+      this.sign = true;
+    }
 
+    let temp = this.num;
+    while(!(this.num >= 0.5 && this.num < 1))
+    {
+
+      temp /= 2;
+    }
   }
 
   this.add: function(float)
