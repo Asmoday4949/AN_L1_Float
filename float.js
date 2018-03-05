@@ -2,20 +2,15 @@
 Authors : Biloni Kim, Fleury Malik, Bulloni Lucas
 Description : float class
 */
-function Float(num, bits)
+class Float
 {
-  this.sign = undefined;
-  this.exponent = [];
-  this.fraction = [];
-  this.num = num;
-  this.bits = bits;
+  let sign = undefined;
+  let exponent = [];
+  let fraction = [];
+  let num = num;
+  let bits = bits;
 
-  this.build();
-}
-
-Float.prototype = {
-  /*calculate the float table of bits*/
-  this.build: function()
+  constructor(num, bits)
   {
     if(this.num >= 0)
     {
@@ -34,12 +29,12 @@ Float.prototype = {
     }
   }
 
-  this.add: function(float)
+  add(float)
   {
 
   }
 
-  this.soustract: function(float)
+  soustract(float)
   {
 
   }
