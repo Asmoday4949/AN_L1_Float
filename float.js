@@ -4,14 +4,16 @@ Description : float class
 */
 class Float
 {
-  let sign = undefined;
-  let exponent = [];
-  let fraction = [];
-  let num = num;
-  let bits = bits;
 
   constructor(num, bits)
   {
+    this.sign = undefined;
+    this.exponent = [];
+    this.fraction = [];
+    this.num = num;
+    this.bits = bits;
+
+
     if(this.num >= 0)
     {
       this.sign = false;
