@@ -10,7 +10,7 @@ class Float
     this.sign = undefined;
     this.exponent = [];
     this.fraction = [];
-    this.num = num;
+    this.num = parseFloat(num);
     this.bits = bits;
 
 
@@ -23,12 +23,29 @@ class Float
       this.sign = true;
     }
 
-    let temp = this.num;
-    while(!(temp >= 0.5 && temp < 1))
+    let binaryPart = this.convertDecToBin();
+
+    console.log(binaryPart);
+  }
+
+  convertDecToBin()
+  {
+    let temp = this.num % 1;
+    let binary = [];
+
+    while(temp != 1)
     {
-      console.log(temp);
-      temp /= 2;
+      temp *= 2;
+
+      binary.push(temp >= 1);
+
+      if(binary[binary.length-1] && temp != 1)
+      {
+        temp = temp-1;
+      }
     }
+
+    return binary;
   }
 
   add(float)
