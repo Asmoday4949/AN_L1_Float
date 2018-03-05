@@ -40,6 +40,20 @@ class Float
   {
 
   }
+
+  intToBin(value)
+  {
+    var binArray = [];
+
+    do
+    {
+      binArray.unshift(value%2);
+      value = parseInt(value/2);
+    }
+    while (value >= 1);
+
+    return binArray;
+  }
 }
 
 function processFloat()
