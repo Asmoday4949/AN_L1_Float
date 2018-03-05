@@ -23,9 +23,12 @@ class Float
       this.sign = true;
     }
 
-    let binaryPart = this.convertDecToBin();
 
-    console.log(binaryPart);
+    let decBinaryPart = this.convertDecToBin();
+    let intBinaryPart = this.convertIntToBin();
+
+    console.log(intBinaryPart);
+    console.log(decBinaryPart);
   }
 
   convertDecToBin()
@@ -48,6 +51,21 @@ class Float
     return binary;
   }
 
+  convertIntToBin()
+  {
+    var binary = [];
+    let value = Math.floor(this.num);
+
+    do
+    {
+      binary.unshift(!!(value%2));
+      value = parseInt(value/2);
+    }
+    while (value >= 1);
+
+    return binary;
+  }
+
   add(float)
   {
 
@@ -58,19 +76,7 @@ class Float
 
   }
 
-  intToBin(value)
-  {
-    var binArray = [];
 
-    do
-    {
-      binArray.unshift(value%2);
-      value = parseInt(value/2);
-    }
-    while (value >= 1);
-
-    return binArray;
-  }
 }
 
 function createFloat()
