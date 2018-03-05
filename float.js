@@ -24,9 +24,9 @@ class Float
     }
 
     let temp = this.num;
-    while(!(this.num >= 0.5 && this.num < 1))
+    while(!(temp >= 0.5 && temp < 1))
     {
-
+      console.log(temp);
       temp /= 2;
     }
   }
@@ -56,10 +56,10 @@ class Float
   }
 }
 
-function processFloat()
+function createFloat()
 {
-  let inputVal = document.getElementById("float");
-  let nbBits = parseInt(document.getElementById("nbBits"));
+  let inputVal = document.getElementById("float").value;
+  let nbBits = document.getElementById("nbBits").value;
 
   let float = new Float(inputVal, nbBits);
 
