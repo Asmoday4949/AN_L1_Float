@@ -13,7 +13,6 @@ class Float
     this.num = parseFloat(num);
     this.bits = bits;
 
-
     if(this.num >= 0)
     {
       this.sign = false;
@@ -53,15 +52,17 @@ class Float
 
   convertIntToBin()
   {
-    var binary = [];
-    let value = Math.floor(this.num);
+    var binary = []
+    var bool = false;
+    var value = Math.floor(this.num);
 
     do
     {
-      binary.unshift(!!(value%2));
-      value = parseInt(value/2);
+      bool = (value & 1) == 1;
+      binary.unshift(bool);
+      value = value >> 1;
     }
-    while (value >= 1);
+    while(value != 0);
 
     return binary;
   }
