@@ -9,22 +9,28 @@ class Float
   {
     this.exponent = [];
     this.fraction = [];
-    this.intNum = num.split(".")[0];
-    this.decNum = num.split(".")[1];
     this.bits = bits;
-    this.sign = !(parseInt(this.intNum) >= 0);
+    this.build(num, bits);
 
-    let decBinaryPart = this.convertDecToBin();
-    //let intBinaryPart = this.convertIntToBin();
 
     console.log(intBinaryPart);
     console.log(decBinaryPart);
   }
 
-  convertDecToBin()
+  build(num, bits)
   {
-    let goalNumber = Math.pow(10, this.decNum.length)
-    let temp = parseInt(this.decNum);
+    let intNum = num.split(".")[0];
+    let decNum = num.split(".")[1];
+    this.sign = !(parseInt(this.intNum) >= 0);
+
+    let decBinaryPart = this.convertDecToBin(intNum);
+    let intBinaryPart = this.convertIntToBin(decNum);
+  }
+
+  convertDecToBin(decNum)
+  {
+    let goalNumber = Math.pow(10, decNum.length)
+    let temp = parseInt(decNum);
     let binary = [];
 
     while(temp != goalNumber)
@@ -44,11 +50,11 @@ class Float
     return binary;
   }
 
-  convertIntToBin()
+  convertIntToBin(intNum)
   {
     var binary = []
     var bool = false;
-    var value = Math.floor(this.num);
+    var value = Math.floor(intNum);
 
     do
     {
