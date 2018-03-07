@@ -7,21 +7,15 @@ class Float
 
   constructor(num, bits)
   {
-    this.sign = undefined;
     this.exponent = [];
     this.fraction = [];
-    this.num = parseFloat(num);
+    this.intNum = num.split(".")[0];
+    this.decNum = num.split(".")[1];
     this.bits = bits;
+    this.sign = !(parseInt(this.intNum) >= 0);
 
 
-    if(this.num >= 0)
-    {
-      this.sign = false;
-    }
-    else
-    {
-      this.sign = true;
-    }
+
 
 
     let decBinaryPart = this.convertDecToBin();
