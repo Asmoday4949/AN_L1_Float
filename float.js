@@ -14,12 +14,8 @@ class Float
     this.bits = bits;
     this.sign = !(parseInt(this.intNum) >= 0);
 
-
-
-
-
     let decBinaryPart = this.convertDecToBin();
-    let intBinaryPart = this.convertIntToBin();
+    //let intBinaryPart = this.convertIntToBin();
 
     console.log(intBinaryPart);
     console.log(decBinaryPart);
@@ -27,19 +23,22 @@ class Float
 
   convertDecToBin()
   {
-    let temp = this.num % 1;
+    let goalNumber = Math.pow(10, this.decNum.length)
+    let temp = parseInt(this.decNum);
     let binary = [];
 
-    while(temp != 1)
+    while(temp != goalNumber)
     {
       temp *= 2;
 
-      binary.push(temp >= 1);
+      binary.push(temp >= goalNumber);
 
-      if(binary[binary.length-1] && temp != 1)
+      if(binary[binary.length-1] && temp != goalNumber)
       {
-        temp = temp-1;
+        temp = temp-goalNumber;
       }
+
+      console.log(binary);
     }
 
     return binary;
@@ -79,5 +78,4 @@ function createFloat()
   let nbBits = document.getElementById("nbBits").value;
 
   let float = new Float(inputVal, nbBits);
-
 }
