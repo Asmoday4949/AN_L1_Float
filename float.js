@@ -98,4 +98,41 @@ class Float
   {
 
   }
+
+  changeToInfini(sign)
+  {
+    this.sign = sign;
+    
+  }
+
+  static isSepcialNumber(input)
+  {
+    if(isNaN(input))
+    {
+      if(input.toLowerCase().search(/infini/))
+      {
+        if(input.search(/-/)) //s'il est explicitement negatif
+        {
+
+        }
+        else //sinon on le considere positif
+        {
+
+        }
+      }
+      else if(input.toLowerCase().search(/pi/))
+      {
+        //Trouver codage de pi
+      }
+      else // correspond à NaN
+      {
+        //Contstruire un NaN
+      }
+    }
+    //else if input vaut pi ou une approximation
+    else
+    {
+      return false;
+    }
+  }
 }
