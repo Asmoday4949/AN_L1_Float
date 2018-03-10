@@ -14,6 +14,8 @@ class Float
     this.sizeFraction = 20; //taille de la mantisse
     this.sizeExponent = this.bits - 1 - this.sizeFraction;
 
+if(!isSpecialNumbers(this, num))
+{
     //ne prend pas en compte les ","
     let stringSplit = num.split(".");
     let intNum = stringSplit[0];
@@ -32,7 +34,7 @@ class Float
 
     let decExponent = this.mergeIntDecBin(this.convertIntToBin(intNum), this.convertDecToBin(decNum));
     this.convertExponentToBin(decExponent);
-
+    }
   }
 
   // convertit la partie décimale en binaire
@@ -113,7 +115,7 @@ class Float
     }
 
     //ajoute des 0 à droite
-    binary = this.fillZero(binary, this.sizeFraction);
+    binary = this.fill(false, binary, this.sizeFraction);
     this.fraction = binary;
 
     return exponent;
@@ -124,19 +126,81 @@ class Float
   {
     exponent += Math.pow(2, this.sizeExponent-1) - 1 ;
     this.exponent = this.convertIntToBin(exponent);
-    this.fillZero(this.exponent, this.sizeExponent);
+    this.fill(false, this.exponent, this.sizeExponent);
   }
 
   //fill the binary array until the end
-  fillZero(binaryNumber, wantedSize)
+  fill(value, binaryNumber, wantedSize)
   {
     for(let i = binaryNumber.length - 1; i < wantedSize-1; i++)
     {
-      binaryNumber.push(false);
+      binaryNumber.push(value); //True : 1, False : 0
     }
 
     return binaryNumber;
   }
+
+   //convertit le binaire de la partie entière en entier
+   function convertBinToInt(binary)
+   {
+     var nbits = binary.length-1;
+     var value = 0;
+     var factor = 1;
+
+     for(var i = nbits;i >= 0; --i)
+     {
+   	value += binary[i] * factor;
+   	factor *= 2;
+     }
+
+     return value;
+   }
+
+   //convertit le binaire de la partie décimale en entier
+   function convertBinToDec(binary)
+   {
+     var nbits = binary.lastIndexOf(true)+1;
+     var factor = Math.pow(10, nbits);
+     var divisor = 2;
+     var value = 0;
+
+     for(var i = 0;i < nbits; ++i)
+     {
+   	value += binary[i] * factor/divisor;
+   	divisor *= 2;
+     }
+
+     // TODO : nécessite d'ajouter des zéros
+     // Je vais fix ça demain :)
+
+     return value;
+   }
+
+   function SEMToIntDec()
+   {
+
+   }
+
+   //Permet d'obtenir sous la forme d'une string le float
+   function toString(sign, binInt, binDec)
+   {
+      var floatStr = "";
+
+      if(sign)
+      {
+      floatStr += "-";
+      }
+      else
+      {
+      floatStr += "+";
+      }
+
+      floatStr += binToInt(intBin);
+      floatStr += ",";
+      floatStr += binToDec(decBin);
+
+      return floatStr;
+   }
 
   add(float)
   {
@@ -146,5 +210,64 @@ class Float
   soustract(float)
   {
 
+  }
+
+  changeToInfini(sign)
+  {
+    this.sign = sign;
+    this.fill(true, this.exponent, this.sizeExponent);
+    this.fill(false, this.fraction, this.sizeFraction);
+  }
+
+  changeToNaN()
+  {
+    this.sign = true;
+    this.fill(true, this.exponent, this.sizeExponent);
+    this.fill(undefined, this.fraction, this.sizeFraction); // Faire un test si fonctionnel
+  }
+
+  changeToPi(sign)
+  {
+    this.sign = sign;
+    //Trouvez l'encodage
+  }
+
+  static isSepcialNumber(num, input)
+  {
+    if(isNaN(input))
+    {
+      if(input.toLowerCase().search(/infini/))
+      {
+        if(input.search(/-/)) //s'il est explicitement negatif
+        {
+          this.changeToInfini(false);
+        }
+        else //sinon on le considere positif
+        {
+          this.changeToInfini(true);
+        }
+      }
+      else if(input.toLowerCase().search(/pi/))
+      {
+        if(input.search(/-/)) //s'il est explicitement negatif
+        {
+          this.changeToPi(false);
+        }
+        else  //sinon on le considere positif
+        {
+          this.changeToPi(true);
+        }
+      }
+      else // correspond à NaN
+      {
+        this.changeToNaN();
+      }
+      return true;
+    }
+    //else if input vaut pi ou une approximation
+    else
+    {
+      return false;
+    }
   }
 }
