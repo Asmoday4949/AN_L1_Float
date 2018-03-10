@@ -95,7 +95,7 @@ class Float
     }
 
     //ajoute des 0 à droite
-    binary = this.fillZero(binary, this.sizeFraction);
+    binary = this.fill(false, binary, this.sizeFraction);
     this.fraction = binary;
 
     return exponent;
@@ -106,15 +106,15 @@ class Float
   {
     exponent += Math.pow(2, this.sizeExponent-1) - 1 ;
     this.exponent = this.convertIntToBin(exponent);
-    this.fillZero(this.exponent, this.sizeExponent);
+    this.fill(false, this.exponent, this.sizeExponent);
   }
 
   //fill the binary array until the end
-  fillZero(binaryNumber, wantedSize)
+  fill(value, binaryNumber, wantedSize)
   {
     for(let i = binaryNumber.length - 1; i < wantedSize-1; i++)
     {
-      binaryNumber.push(false);
+      binaryNumber.push(value); //True : 1, False : 0
     }
 
     return binaryNumber;
@@ -133,7 +133,8 @@ class Float
   changeToInfini(sign)
   {
     this.sign = sign;
-    
+    this.fill(true, this.exponent, this.sizeExponent);
+    this.fill(false, this.fraction, this.sizeFraction);
   }
 
   static isSepcialNumber(input)
