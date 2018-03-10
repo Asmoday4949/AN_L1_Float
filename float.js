@@ -14,14 +14,15 @@ class Float
     this.sizeFraction = 20; //taille de la mantisse
     this.sizeExponent = this.bits - 1 - this.sizeFraction;
 
-    let intNum = num.split(".")[0];
-    let decNum = num.split(".")[1];
-    this.sign = !(parseInt(this.intNum) >= 0);
+    if(!isSpecialNumbers(this, num))
+    {
+      let intNum = num.split(".")[0];
+      let decNum = num.split(".")[1];
+      this.sign = !(parseInt(this.intNum) >= 0);
 
-
-    let decExponent = this.mergeIntDecBin(this.convertIntToBin(intNum), this.convertDecToBin(decNum));
-    this.convertExponentToBin(decExponent);
-
+      let decExponent = this.mergeIntDecBin(this.convertIntToBin(intNum), this.convertDecToBin(decNum));
+      this.convertExponentToBin(decExponent);
+    }
   }
 
   // convertit la partie décimale en binaire
@@ -137,7 +138,20 @@ class Float
     this.fill(false, this.fraction, this.sizeFraction);
   }
 
-  static isSepcialNumber(input)
+  changeToNaN()
+  {
+    this.sign = true;
+    this.fill(true, this.exponent, this.sizeExponent);
+    this.fill(undefined, this.fraction, this.sizeFraction); // Faire un test si fonctionnel
+  }
+
+  changeToPi(sign)
+  {
+    this.sign = sign;
+    //Trouvez l'encodage
+  }
+
+  static isSepcialNumber(num, input)
   {
     if(isNaN(input))
     {
@@ -145,21 +159,29 @@ class Float
       {
         if(input.search(/-/)) //s'il est explicitement negatif
         {
-
+          this.changeToInfini(false);
         }
         else //sinon on le considere positif
         {
-
+          this.changeToInfini(true);
         }
       }
       else if(input.toLowerCase().search(/pi/))
       {
-        //Trouver codage de pi
+        if(input.search(/-/)) //s'il est explicitement negatif
+        {
+          this.changeToPi(false);
+        }
+        else  //sinon on le considere positif
+        {
+          this.changeToPi(true);
+        }
       }
       else // correspond à NaN
       {
-        //Contstruire un NaN
+        this.changeToNaN();
       }
+      return true;
     }
     //else if input vaut pi ou une approximation
     else
