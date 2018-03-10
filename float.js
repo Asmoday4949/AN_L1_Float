@@ -207,17 +207,17 @@ class Float
   // 0 --> le signe
   // 1 --> la partie entière en binaire (tableau)
   // 2 --> la partie décimale en binaire (tableau)
-  SEMToIntDec(sign, exponent, mantissa)
+  convertSEMToIntDec()
   {
     let totalBits = 1 + sizeExponent + sizeMantissa;      // S + E + M (bit signe, bits exposants, bits mantisse)
     let exponentOffset = Math.pow(2,sizeExponent)/2 - 1;  // Décalage de l'exposant
 
-    let realExponent = convertBinToInt(exponent) - exponentOffset;
+    let realExponent = convertBinToInt(this.exponent) - exponentOffset;
 
     // Découpe la mantisse en partie entière et en partie décimale
     // Copies profondes
-    let binIntPart = Array.from(mantissa.slice(0,realExponent));
-    let binDecPart = Array.from(mantissa.slice(realExponent));
+    let binIntPart = Array.from(this.mantissa.slice(0,realExponent));
+    let binDecPart = Array.from(this.mantissa.slice(realExponent));
 
     // Ajout du bit implicite (ou caché WHATEVER !)
     binIntPart.unshift(true);
@@ -226,9 +226,15 @@ class Float
   }
 
   //Permet d'obtenir sous la forme d'une string le float
-  toString(sign, binInt, binDec)
+  toString()
   {
-    var floatStr = "";
+    let floatStr = "";
+
+    // Signe | entier | décimal (SED)
+    let SED = convertSEMToIntDec();
+    let sign = SED[0];
+    let binInt = SED[1];
+    let binDec = SED[2];
 
     if(sign)
     {
@@ -239,9 +245,9 @@ class Float
       floatStr += "+";
     }
 
-    floatStr += binToInt(intBin);
+    floatStr += binToInt(binInt);
     floatStr += ",";
-    floatStr += binToDec(decBin);
+    floatStr += binToDec(binDec);
 
     return floatStr;
   }
