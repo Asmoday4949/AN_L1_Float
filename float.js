@@ -7,26 +7,23 @@ class Float
 
   constructor(num, bits)
   {
-    this.exponent = [];
-    this.fraction = [];
-    this.bits = bits;
-    this.build(num, bits);
+    this.exponent = []; //mantisse
+    this.fraction = []; //nombre
+    this.sign = undefined;
+    this.bits = bits; // size
+    this.sizeFraction = 0; //taille de la mantisse
 
-
-    console.log(intBinaryPart);
-    console.log(decBinaryPart);
-  }
-
-  build(num, bits)
-  {
     let intNum = num.split(".")[0];
     let decNum = num.split(".")[1];
     this.sign = !(parseInt(this.intNum) >= 0);
 
-    let decBinaryPart = this.convertDecToBin(intNum);
-    let intBinaryPart = this.convertIntToBin(decNum);
+
+    let decExponent = this.mergeIntDecBin(this.convertIntToBin(intNum), this.convertDecToBin(decNum));
+    this.convertExponentToBin(decExponent);
+
   }
 
+  // convertit la partie décimale en binaire
   convertDecToBin(decNum)
   {
     let goalNumber = Math.pow(10, decNum.length)
@@ -43,13 +40,12 @@ class Float
       {
         temp = temp-goalNumber;
       }
-
-      console.log(binary);
     }
 
     return binary;
   }
 
+  //convertit la partie entière en binaire
   convertIntToBin(intNum)
   {
     var binary = []
@@ -67,6 +63,32 @@ class Float
     return binary;
   }
 
+  //merge la partie décimale et entière pour faire la mantisse
+  mergeIntDecBin(intPart, decPart)
+  {
+    let binary = intPart.concat(decPart);
+    let exponent = 0;
+
+    //seul cas ou decPart est [0] est quand le nombre ressemble à 0.XXXX et exposant sera négatif
+    if(decPart.length === 1 && !decPart[0])
+    {
+
+    }
+    else
+    {
+      exponent = decPart.length - 1;
+      binary.shift();
+    }
+
+    this.fraction = binary;
+    return exponent;
+  }
+
+  convertExponentToBin(exponent)
+  {
+
+  }
+
   add(float)
   {
 
@@ -76,14 +98,4 @@ class Float
   {
 
   }
-
-
-}
-
-function createFloat()
-{
-  let inputVal = document.getElementById("float").value;
-  let nbBits = document.getElementById("nbBits").value;
-
-  let float = new Float(inputVal, nbBits);
 }
