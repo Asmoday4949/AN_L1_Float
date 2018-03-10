@@ -34,6 +34,12 @@ class Float
       let decExponent = this.mergeIntDecBin(this.convertIntToBin(intNum), this.convertDecToBin(decNum));
       this.convertExponentToBin(decExponent);
     }
+
+    // Code de test afin de vérifier le bon fonctionnement de la conversion SEM to SED
+    // Valeur encodée : +10.5
+    //this.sign = [false];
+    //this.exponent = [true, false, false, false, false, false, true, false];
+    //this.mantissa = [false, true, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
   }
 
 
@@ -209,10 +215,10 @@ class Float
   // 2 --> la partie décimale en binaire (tableau)
   convertSEMToIntDec()
   {
-    let totalBits = 1 + sizeExponent + sizeMantissa;      // S + E + M (bit signe, bits exposants, bits mantisse)
-    let exponentOffset = Math.pow(2,sizeExponent)/2 - 1;  // Décalage de l'exposant
+    let totalBits = 1 + this.sizeExponent + this.sizeMantissa;    // S + E + M (bit signe, bits exposants, bits mantisse)
+    let exponentOffset = Math.pow(2, this.sizeExponent)/2 - 1;    // Décalage de l'exposant
 
-    let realExponent = convertBinToInt(this.exponent) - exponentOffset;
+    let realExponent = this.convertBinToInt(this.exponent) - exponentOffset;
 
     // Découpe la mantisse en partie entière et en partie décimale
     // Copies profondes
@@ -222,7 +228,7 @@ class Float
     // Ajout du bit implicite (ou caché WHATEVER !)
     binIntPart.unshift(true);
 
-    return [sign, binIntPart, binDecPart];
+    return [this.sign, binIntPart, binDecPart];
   }
 
   //Permet d'obtenir sous la forme d'une string le float
@@ -231,12 +237,12 @@ class Float
     let floatStr = "";
 
     // Signe | entier | décimal (SED)
-    let SED = convertSEMToIntDec();
+    let SED = this.convertSEMToIntDec();
     let sign = SED[0];
     let binInt = SED[1];
     let binDec = SED[2];
 
-    if(sign)
+    if(sign == true)
     {
       floatStr += "-";
     }
@@ -245,9 +251,9 @@ class Float
       floatStr += "+";
     }
 
-    floatStr += binToInt(binInt);
-    floatStr += ",";
-    floatStr += binToDec(binDec);
+    floatStr += this.convertBinToInt(binInt);
+    floatStr += ".";
+    floatStr += this.convertBinToDec(binDec);
 
     return floatStr;
   }
