@@ -14,8 +14,19 @@ class Float
     this.sizeFraction = 20; //taille de la mantisse
     this.sizeExponent = this.bits - 1 - this.sizeFraction;
 
-    let intNum = num.split(".")[0];
-    let decNum = num.split(".")[1];
+    //ne prend pas en compte les ","
+    let stringSplit = num.split(".");
+    let intNum = stringSplit[0];
+    let decNum = "";
+    if(stringSplit.length === 2)
+    {
+      decNum = stringSplit[1];
+    }
+    else
+    {
+      decNum = "0";
+    }
+
     this.sign = !(parseInt(this.intNum) >= 0);
 
 
@@ -27,23 +38,30 @@ class Float
   // convertit la partie décimale en binaire
   convertDecToBin(decNum)
   {
-    let goalNumber = Math.pow(10, decNum.length)
     let temp = parseInt(decNum);
-    let binary = [];
-
-    while(temp != goalNumber)
+    if(temp === 0)
     {
-      temp *= 2;
-
-      binary.push(temp >= goalNumber);
-
-      if(binary[binary.length-1] && temp != goalNumber)
-      {
-        temp = temp-goalNumber;
-      }
+      return [false];
     }
+    else
+    {
+      let goalNumber = Math.pow(10, decNum.length)
+      let binary = [];
 
-    return binary;
+      while(temp != goalNumber && binary.length < this.sizeFraction)
+      {
+        temp *= 2;
+
+        binary.push(temp >= goalNumber);
+
+        if(binary[binary.length-1] && temp != goalNumber)
+        {
+          temp = temp-goalNumber;
+        }
+      }
+
+      return binary;
+    }
   }
 
   //convertit la partie entière en binaire
@@ -59,7 +77,7 @@ class Float
       binary.unshift(bool);
       value = value >> 1;
     }
-    while(value != 0);
+    while(value != 0 && binary.length < this.sizeFraction);
 
     return binary;
   }
