@@ -11,8 +11,8 @@ class Float
     this.fraction = []; //nombre
     this.sign = undefined;
     this.bits = bits; // size
-    this.sizeFraction = 20; //taille de la mantisse
-    this.sizeExponent = this.bits - 1 - this.sizeFraction;
+    this.sizeMantissa = 23; //taille de la mantisse
+    this.sizeExponent = this.bits - 1 - this.sizeMantissa;
 
 if(!isSpecialNumbers(this, num))
 {
@@ -50,7 +50,7 @@ if(!isSpecialNumbers(this, num))
       let goalNumber = Math.pow(10, decNum.length)
       let binary = [];
 
-      while(temp != goalNumber && binary.length < this.sizeFraction)
+      while(temp != goalNumber && binary.length < this.sizeMantissa)
       {
         temp *= 2;
 
@@ -79,7 +79,7 @@ if(!isSpecialNumbers(this, num))
       binary.unshift(bool);
       value = value >> 1;
     }
-    while(value != 0 && binary.length < this.sizeFraction);
+    while(value != 0 && binary.length < this.sizeMantissa);
 
     return binary;
   }
@@ -115,7 +115,7 @@ if(!isSpecialNumbers(this, num))
     }
 
     //ajoute des 0 à droite
-    binary = this.fill(false, binary, this.sizeFraction);
+    binary = this.fill(false, binary, this.sizeMantissa);
     this.fraction = binary;
 
     return exponent;
@@ -141,7 +141,7 @@ if(!isSpecialNumbers(this, num))
   }
 
    //convertit le binaire de la partie entière en entier
-   function convertBinToInt(binary)
+   convertBinToInt(binary)
    {
      var nbits = binary.length-1;
      var value = 0;
@@ -157,7 +157,7 @@ if(!isSpecialNumbers(this, num))
    }
 
    //convertit le binaire de la partie décimale en entier
-   function convertBinToDec(binary)
+   convertBinToDec(binary)
    {
      var nbits = binary.lastIndexOf(true)+1;
      var factor = Math.pow(10, nbits);
@@ -170,19 +170,37 @@ if(!isSpecialNumbers(this, num))
    	divisor *= 2;
      }
 
-     // TODO : nécessite d'ajouter des zéros
+     // TODO : nécessite d'ajouter des zéros : 0.0625 --> 0.625 (bug)
      // Je vais fix ça demain :)
 
      return value;
    }
 
-   function SEMToIntDec()
+   // Permet d'obtenir la partie entière et la partie décimale en binaire à partir de la convention SEM
+   // La fonction retourne un tableau contenant aux index :
+   // 0 --> le signe
+   // 1 --> la partie entière en binaire (tableau)
+   // 2 --> la partie décimale en binaire (tableau)
+   SEMToIntDec(sign, exponent, mantissa)
    {
+     var totalBits = 1 + sizeExponent + sizeMantissa;      // S + E + M (bit signe, bits exposants, bits mantisse)
+     var exponentOffset = Math.pow(2,sizeExponent)/2 - 1;  // Décalage de l'exposant
 
+     var realExponent = convertBinToInt(exponent) - exponentOffset;
+
+     // Découpe la mantisse en partie entière et en partie décimale
+     // Copies profondes
+     var binIntPart = Array.from(mantissa.slice(0,realExponent));
+     var binDecPart = Array.from(mantissa.slice(realExponent));
+
+     // Ajout du bit implicite (ou caché WHATEVER !)
+     binIntPart.unshift(true);
+
+     return [sign, binIntPart, binDecPart];
    }
 
    //Permet d'obtenir sous la forme d'une string le float
-   function toString(sign, binInt, binDec)
+   toString(sign, binIntPart, binDecPart)
    {
       var floatStr = "";
 
@@ -216,14 +234,14 @@ if(!isSpecialNumbers(this, num))
   {
     this.sign = sign;
     this.fill(true, this.exponent, this.sizeExponent);
-    this.fill(false, this.fraction, this.sizeFraction);
+    this.fill(false, this.fraction, this.sizeMantissa);
   }
 
   changeToNaN()
   {
     this.sign = true;
     this.fill(true, this.exponent, this.sizeExponent);
-    this.fill(undefined, this.fraction, this.sizeFraction); // Faire un test si fonctionnel
+    this.fill(undefined, this.fraction, this.sizeMantissa); // Faire un test si fonctionnel
   }
 
   changeToPi(sign)
