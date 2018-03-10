@@ -11,7 +11,7 @@ class Float
     this.fraction = []; //nombre
     this.sign = undefined;
     this.bits = bits; // size
-    this.sizeFraction = 0; //taille de la mantisse
+    this.sizeFraction = 20; //taille de la mantisse
     this.sizeExponent = this.bits - 1 - this.sizeFraction;
 
     let intNum = num.split(".")[0];
@@ -95,18 +95,18 @@ class Float
     }
 
     //ajoute des 0 à droite
-    //binary = this.fillZero(binary, this.sizeFraction);
-    binary = this.fillZero(binary, 20);
+    binary = this.fillZero(binary, this.sizeFraction);
     this.fraction = binary;
 
     return exponent;
   }
 
-  //convertit l'exposant en binaire
+  //convertit l'exposant en binaire avec le décalage pour les nombres négatifs
   convertExponentToBin(exponent)
   {
-    //exponent - Math.pow(2, this.sizeExponent);
-
+    exponent += Math.pow(2, this.sizeExponent-1) - 1 ;
+    this.exponent = this.convertIntToBin(exponent);
+    this.fillZero(this.exponent, this.sizeExponent);
   }
 
   //fill the binary array until the end
