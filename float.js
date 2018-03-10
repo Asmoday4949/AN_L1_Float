@@ -12,6 +12,7 @@ class Float
     this.sign = undefined;
     this.bits = bits; // size
     this.sizeFraction = 0; //taille de la mantisse
+    this.sizeExponent = this.bits - 1 - this.sizeFraction;
 
     let intNum = num.split(".")[0];
     let decNum = num.split(".")[1];
@@ -66,27 +67,57 @@ class Float
   //merge la partie décimale et entière pour faire la mantisse
   mergeIntDecBin(intPart, decPart)
   {
-    let binary = intPart.concat(decPart);
+    let binary = [];
     let exponent = 0;
 
     //seul cas ou decPart est [0] est quand le nombre ressemble à 0.XXXX et exposant sera négatif
     if(decPart.length === 1 && !decPart[0])
     {
+      let i = -1;
 
+      // recherche le premier 1 dans la partie décimale
+      do
+      {
+        exponent--;
+        i++;
+      } while(!decPart[i]);
+
+      //garde tous les éléments de la partie décimale du premier 1 non inclu jusqu'à la fin
+      binary = decPart.slice(i+1);
     }
     else
     {
+      //si le nombre >= 1 alors on concatène les deux tableaux et on supprime le premier 1
+      //si le nombre >= 1 le premier bit de intpart sera toujours 1
+      binary = intPart.concat(decPart);
       exponent = decPart.length - 1;
       binary.shift();
     }
 
+    //ajoute des 0 à droite
+    //binary = this.fillZero(binary, this.sizeFraction);
+    binary = this.fillZero(binary, 20);
     this.fraction = binary;
+
     return exponent;
   }
 
+  //convertit l'exposant en binaire
   convertExponentToBin(exponent)
   {
+    //exponent - Math.pow(2, this.sizeExponent);
 
+  }
+
+  //fill the binary array until the end
+  fillZero(binaryNumber, wantedSize)
+  {
+    for(let i = binaryNumber.length - 1; i < wantedSize-1; i++)
+    {
+      binaryNumber.push(false);
+    }
+
+    return binaryNumber;
   }
 
   add(float)
