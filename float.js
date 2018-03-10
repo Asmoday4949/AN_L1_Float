@@ -121,6 +121,68 @@ class Float
     return binaryNumber;
   }
 
+   //convertit le binaire de la partie entière en entier
+   function convertBinToInt(binary)
+   {
+     var nbits = binary.length-1;
+     var value = 0;
+     var factor = 1;
+
+     for(var i = nbits;i >= 0; --i)
+     {
+   	value += binary[i] * factor;
+   	factor *= 2;
+     }
+
+     return value;
+   }
+
+   //convertit le binaire de la partie décimale en entier
+   function convertBinToDec(binary)
+   {
+     var nbits = binary.lastIndexOf(true)+1;
+     var factor = Math.pow(10, nbits);
+     var divisor = 2;
+     var value = 0;
+
+     for(var i = 0;i < nbits; ++i)
+     {
+   	value += binary[i] * factor/divisor;
+   	divisor *= 2;
+     }
+
+     // TODO : nécessite d'ajouter des zéros
+     // Je vais fix ça demain :)
+
+     return value;
+   }
+
+   function SEMToIntDec()
+   {
+
+   }
+
+   //Permet d'obtenir sous la forme d'une string le float
+   function toString(sign, binInt, binDec)
+   {
+      var floatStr = "";
+
+      if(sign)
+      {
+      floatStr += "-";
+      }
+      else
+      {
+      floatStr += "+";
+      }
+
+      floatStr += binToInt(intBin);
+      floatStr += ",";
+      floatStr += binToDec(decBin);
+
+      return floatStr;
+   }
+
   add(float)
   {
 
