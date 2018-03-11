@@ -4,35 +4,52 @@ Description : float class
 */
 class Float
 {
-
-  constructor(num, bits)
+  //parameters est un objet -> either {num, bits} or {sign, mantissa, exponent}
+  constructor(parameters, option = "decToBin")
   {
     this.exponent = []; //mantisse
     this.mantissa = []; //nombre
     this.sign = undefined;
-    this.bits = bits; // size
-    this.sizeExponent = 8;
-    this.sizeMantissa = this.bits - 1 - this.sizeExponent; //taille de la mantisse
+    this.bits = 0; // size
+    this.sizeExponent = 0;
+    this.sizeMantissa = 0;
+    this.sizeIntPart = 0; // utilisé pour ne pas dépassé la taille de bits autorisé lors du calcule de la partie décimale
 
-    if(!Float.isSepcialNumber(this, num))
+    if(option === "decToBin")
     {
-      //ne prend pas en compte les ","
-      let stringSplit = num.split(".");
-      let intNum = stringSplit[0];
-      let decNum = "";
+      this.bits = parameters.bits;
+      this.sizeMantissa = this.bits - 1 - this.sizeExponent; //taille de la mantisse
 
-      if(stringSplit.length === 2)
+      if(!Float.isSepcialNumber(this, parameters.number))
       {
-        decNum = stringSplit[1];
-      }
-      else
-      {
-        decNum = "0";
-      }
+        //ne prend pas en compte les ","
+        let stringSplit = parameters.number.split(".");
+        let intNum = stringSplit[0];
+        let decNum = "";
 
-      this.sign = !(parseInt(this.intNum) >= 0);
-      let decExponent = this.mergeIntDecBin(this.convertIntToBin(intNum), this.convertDecToBin(decNum));
-      this.exponent = this.convertExponentToBin(decExponent);
+        if(stringSplit.length === 2)
+        {
+          decNum = stringSplit[1];
+        }
+        else
+        {
+          decNum = "0";
+        }
+
+        this.sign = !(parseInt(this.intNum) >= 0);
+        let decExponent = this.mergeIntDecBin(this.convertIntToBin(intNum), this.convertDecToBin(decNum));
+        this.exponent = this.convertExponentToBin(decExponent);
+      }
+    }
+    else if(option === "binToDec")
+    {
+      this.exponent = parameters.exponent;
+      this.sign = parameters.sign;
+      this.mantissa = parameters.mantissa;
+
+      this.bits = this.exponent.length + this.sign.length + this.mantissa.length;
+      this.sizeMantissa = this.mantissa.length;
+      this.sizeExponent = this.exponent.length;
     }
 
     // Code de test afin de vérifier le bon fonctionnement de la conversion SEM to SED
@@ -58,7 +75,7 @@ class Float
       let goalNumber = Math.pow(10, decNum.length);
       let binary = [];
 
-      while(temp != goalNumber && binary.length < this.sizeMantissa)
+      while(temp != goalNumber && binary.length < this.sizeMantissa-this.sizeIntPart)
       {
         temp *= 2;
 
@@ -87,7 +104,7 @@ class Float
       let power2 = this.searchBiggestSmaller2Pow(intNum);
       let binary = [];
 
-      while(power2 > 0)
+      while(power2 > 0 && binary.length < this.sizeMantissa)
       {
         binary.push(power2 <= intNum);
         if(binary[binary.length-1])
@@ -97,7 +114,8 @@ class Float
 
         power2 = power2 >> 1;
       }
-      console.log(binary);
+
+      this.sizeIntPart = binary.length;
       return binary;
     }
   }
