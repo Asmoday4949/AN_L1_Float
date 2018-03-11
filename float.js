@@ -274,11 +274,37 @@ class Float
     this.fill(false, this.mantissa, this.sizeMantissa);
   }
 
+  isInfini()
+  {
+    this.exponent.forEach(function(item){
+      if(item != true)
+        return false;
+    });
+    this.fraction.forEach(function(item){
+      if(item != false)
+        return false;
+    });
+    return true;
+  }
+
   changeToNaN()
   {
     this.sign = true;
     this.fill(true, this.exponent, this.sizeExponent);
     this.fill(undefined, this.mantissa, this.sizeMantissa); // Faire un test si fonctionnel
+  }
+
+  isNotaN() //isNaN is est un fct du langage Javascript -> nom occupe
+  {
+    this.exponent.forEach(function(item){
+      if(item != true)
+        return false;
+    });
+    this.fraction.forEach(function(item){
+      if(item != undefined)
+        return false;
+    });
+    return sign;  // sign doit etre a vrai
   }
 
   changeToPi(sign)
