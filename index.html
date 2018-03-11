@@ -47,7 +47,7 @@
       </label><br />
       <label for="float">
         Float :<br />
-        <input type="text" name="float" id="float" placeholder="Float">
+        <input type="text" name="float" id="float" placeholder="Float" required>
       </label>
       <div>
         <button type="submit">Submit</button>
@@ -62,25 +62,32 @@
 
     <hr />
 
-    <h3>Convertir un nombre binaire en décimale</h2>
+    <h2>Convertir un nombre binaire en décimale</h2>
 
     <form method="post" action="#" onsubmit="createFloatWithBinary(); return false;">
       <label for="sign">
         Signe :<br />
-        <input type="number" name="sign" id="sign" value="0" min="0" max="1" placeholder="sign">
+        <input type="number" name="sign" id="sign" value="0" min="0" max="1" placeholder="sign" required>
       </label><br />
       <label for="exponent">
         Exposant :<br />
-        <input type="text" name="exponent" id="exponent" placeholder="exponent">
+        <input type="text" name="exponent" id="exponent" placeholder="exponent" required>
       </label><br />
       <label for="mantissa">
         Mantisse :<br />
-        <input type="text" name="mantissa" id="mantissa" placeholder="mantissa">
+        <input type="text" name="mantissa" id="mantissa" placeholder="mantissa" required>
       </label>
       <div>
         <button type="submit">Submit</button>
       </div>
     </form>
+
+    <p><strong>Résultat</strong></p>
+    <p> nombre décimal : <span id="resultToDecimal"></span>
+
+    <hr />
+
+    <h2> Diverses informations </h2>
 
     <p>Le développement a été fait en utilisant des fonctionnalités ES2015, si ça ne fonctionne pas correctement vérifier que votre navigateur et sa version support ces fonctionnalités</p>
 
