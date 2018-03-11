@@ -37,7 +37,7 @@ class Float
           decNum = "0";
         }
 
-        this.sign = !(parseInt(this.intNum) >= 0);
+        this.sign = !(parseInt(intNum) >= 0);
         let decExponent = this.mergeIntDecBin(this.convertIntToBin(intNum), this.convertDecToBin(decNum));
         this.convertExponentToBin(decExponent);
       }
