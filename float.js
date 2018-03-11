@@ -212,7 +212,10 @@ class Float
     return value;
   }
 
-  //convertit le binaire de la partie décimale en entier
+  // Convertit le binaire en partie décimale
+  // La fonction retourne un tableau comportant aux index :
+  // [0] --> le nombre de 0 devant la valeur
+  // [1] --> la valeur de la partie décimale
   convertBinToDec(binary)
   {
     let nbits = binary.lastIndexOf(true)+1;
@@ -225,11 +228,11 @@ class Float
       value += binary[i] * factor/divisor;
       divisor *= 2;
     }
-
-    // TODO : nécessite d'ajouter des zéros
-    // Je vais fix ça demain :)
-
-    return value;
+	
+	// Calcule le nombre de zéro devant la décimale
+	let nZeroBefore = nbits - Math.floor(Math.log10(value)+1);
+	
+    return [nZeroBefore, value];
   }
 
   // Permet d'obtenir la partie entière et la partie décimale en binaire à partir de la convention SEM
@@ -277,7 +280,14 @@ class Float
 
     floatStr += this.convertBinToInt(binInt);
     floatStr += ".";
-    floatStr += this.convertBinToDec(binDec);
+	
+	// Ajoute des zéros devant la valeur décimale
+	let dec = this.convertBinToDec(binDec);
+	for(let i = 0; i < dec[0]; i++)
+	{
+		floatStr += "0";
+	}
+    floatStr += dec[1];
 
     return floatStr;
   }
