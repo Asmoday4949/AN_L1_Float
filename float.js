@@ -18,7 +18,7 @@ class Float
     if(option === "decToBin")
     {
       this.bits = parameters.bits;
-      this.sizeExponent = 8;
+      this.findSizeExponent();
       this.sizeMantissa = this.bits - 1 - this.sizeExponent; //taille de la mantisse
 
       if(!this.isSpecialNumber(this, parameters.number))
@@ -64,13 +64,13 @@ class Float
   //valeur trouvé en mettant la de l'exposant en fonction de la taille en bits du type et en interpollant la fonction
   findSizeExponent()
   {
-    this.sizeExponent = 5*Math.ceil(Math.log(0.15*this.bits));
+    this.sizeExponent = Math.ceil(5*Math.log(0.15*this.bits));
   }
 
   // convertit la partie décimale en binaire
   convertDecToBin(decNum)
   {
-    let temp = parseInt(decNum);
+    let temp = Math.abs(parseInt(decNum));
     if(temp === 0)
     {
       return [false];
@@ -260,13 +260,36 @@ class Float
 
     let realExponent = this.convertBinToInt(this.exponent) - exponentOffset;
 
-    // Découpe la mantisse en partie entière et en partie décimale
-    // Copies profondes
-    let binIntPart = Array.from(this.mantissa.slice(0,realExponent));
-    let binDecPart = Array.from(this.mantissa.slice(realExponent));
+	let binIntPart;
+	let binDecPart;
 
-    // Ajout du bit implicite (ou caché WHATEVER !)
-    binIntPart.unshift(true);
+	// Si l'exposant est positif
+	if(realExponent >= 0)
+	{
+		// Découpe la mantisse en partie entière et en partie décimale
+		// Copies profondes
+		binIntPart = Array.from(this.mantissa.slice(0,realExponent));
+		binDecPart = Array.from(this.mantissa.slice(realExponent));
+
+		// Ajout du bit implicite (ou caché WHATEVER !)
+		binIntPart.unshift(true);
+	}
+	// Si l'exposant est négatif
+	else
+	{
+		realExponent = Math.abs(realExponent) - 1;
+
+		binIntPart = [false];
+		binDecPart = Array.from(this.mantissa);
+		binDecPart.unshift(true);
+
+		// Ajout de zéros devant le bit implicite (caché)
+		for(let i = 0;i < realExponent; i++)
+		{
+			binDecPart.unshift(false);
+			binDecPart.pop();
+		}
+	}
 
     return [this.sign, binIntPart, binDecPart];
   }
@@ -293,13 +316,13 @@ class Float
 
     floatStr += this.convertBinToInt(binInt);
     floatStr += ".";
-
   	// Ajoute des zéros devant la valeur décimale
   	let dec = this.convertBinToDec(binDec);
   	for(let i = 0; i < dec[0]; i++)
   	{
   		floatStr += "0";
   	}
+
     floatStr += dec[1];
 
     return floatStr;
