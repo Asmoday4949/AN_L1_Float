@@ -18,7 +18,7 @@ class Float
     if(option === "decToBin")
     {
       this.bits = parameters.bits;
-      this.sizeExponent = 8;
+      this.findSizeExponent();
       this.sizeMantissa = this.bits - 1 - this.sizeExponent; //taille de la mantisse
 
       if(!this.isSpecialNumber(this, parameters.number))
@@ -64,13 +64,13 @@ class Float
   //valeur trouvé en mettant la de l'exposant en fonction de la taille en bits du type et en interpollant la fonction
   findSizeExponent()
   {
-    this.sizeExponent = 5*Math.ceil(Math.log(0.15*this.bits));
+    this.sizeExponent = Math.ceil(5*Math.log(0.15*this.bits));
   }
 
   // convertit la partie décimale en binaire
   convertDecToBin(decNum)
   {
-    let temp = parseInt(decNum);
+    let temp = Math.abs(parseInt(decNum));
     if(temp === 0)
     {
       return [false];
@@ -314,14 +314,28 @@ class Float
     return floatStr;
   }
 
+  //https://www.youtube.com/watch?v=mKJiD2ZAlwM
   add(float)
   {
+    let bigExponent = findBiggestExponent(this, float);
+    let smallExponent = bigExponent === this ? this : float;
 
   }
 
-  soustract(float)
+  findBiggestExponent(float1, float2)
   {
-
+    for(let i = 0; i < float1.exponent.length; i++)
+    {
+      if(float1[i] && !float2[i])
+      {
+        return float1;
+      }
+      else if(!float1[i] && float2[i])
+      {
+        return float2;
+      }
+    }
+    return float1;
   }
 
   changeToInfinity(sign)
@@ -333,7 +347,7 @@ class Float
     return this;
   }
 
-  isInfini()
+  isInfinity()
   {
     this.exponent.forEach(function(item){
       if(item != true)
