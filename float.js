@@ -18,6 +18,7 @@ class Float
     if(option === "decToBin")
     {
       this.bits = parameters.bits;
+      this.sizeExponent = 8;
       this.sizeMantissa = this.bits - 1 - this.sizeExponent; //taille de la mantisse
 
       if(!Float.isSepcialNumber(this, parameters.number))
