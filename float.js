@@ -60,6 +60,12 @@ class Float
     //this.mantissa = [false, true, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
   }
 
+  //calcule la taille de l'exposant.
+  //valeur trouvé en mettant la de l'exposant en fonction de la taille en bits du type et en interpollant la fonction
+  findSizeExponent()
+  {
+    this.sizeExponent = 5*Math.ceil(Math.log(0.15*this.bits));
+  }
 
   // convertit la partie décimale en binaire
   convertDecToBin(decNum)
