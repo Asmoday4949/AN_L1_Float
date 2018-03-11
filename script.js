@@ -18,17 +18,17 @@ function createFloat()
 
 
   document.getElementById("resultToBinary").innerHTML = strResult;
-  //document.getElementById("resultToDecimalFromBinary").innerHTML = float.toString();
+  document.getElementById("resultToDecimalFromBinary").innerHTML = float.toString();
 }
 
 //traitement du deuxième formulaire
 function createFloatWithBinary()
 {
-  let sign = document.getElementById("sign").value;
+  let sign = Boolean(document.getElementById("sign").value);
   let exponent = document.getElementById("exponent").value;
   let mantissa = document.getElementById("mantissa").value;
 
-  let parameters = {sign: oneZeroToBoolArray(sign), exponent: oneZeroToBoolArray(exponent), mantissa: oneZeroToBoolArray(mantissa)};
+  let parameters = {sign: sign, exponent: oneZeroToBoolArray(exponent), mantissa: oneZeroToBoolArray(mantissa)};
   let float = new Float(parameters, "binToDec");
   document.getElementById("resultToDecimal").innerHTML = float.toString();
 }
