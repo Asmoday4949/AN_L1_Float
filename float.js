@@ -260,13 +260,36 @@ class Float
 
     let realExponent = this.convertBinToInt(this.exponent) - exponentOffset;
 
-    // Découpe la mantisse en partie entière et en partie décimale
-    // Copies profondes
-    let binIntPart = Array.from(this.mantissa.slice(0,realExponent));
-    let binDecPart = Array.from(this.mantissa.slice(realExponent));
+	let binIntPart;
+	let binDecPart;
+	
+	// Si l'exposant est positif
+	if(realExponent >= 0)
+	{
+		// Découpe la mantisse en partie entière et en partie décimale
+		// Copies profondes
+		binIntPart = Array.from(this.mantissa.slice(0,realExponent));
+		binDecPart = Array.from(this.mantissa.slice(realExponent));
 
-    // Ajout du bit implicite (ou caché WHATEVER !)
-    binIntPart.unshift(true);
+		// Ajout du bit implicite (ou caché WHATEVER !)
+		binIntPart.unshift(true);
+	}
+	// Si l'exposant est négatif
+	else
+	{
+		realExponent = Math.abs(realExponent) - 1;
+		
+		binIntPart = [false];
+		binDecPart = Array.from(this.mantissa);
+		binDecPart.unshift(true);
+		
+		// Ajout de zéros devant le bit implicite (caché)
+		for(let i = 0;i < realExponent; i++)
+		{
+			binDecPart.unshift(false);
+			binDecPart.pop();
+		}
+	}
 
     return [this.sign, binIntPart, binDecPart];
   }
@@ -293,7 +316,7 @@ class Float
 
     floatStr += this.convertBinToInt(binInt);
     floatStr += ".";
-
+	
 	// Ajoute des zéros devant la valeur décimale
 	let dec = this.convertBinToDec(binDec);
 	for(let i = 0; i < dec[0]; i++)
