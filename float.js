@@ -89,7 +89,7 @@ class Float
 
       while(power2 > 0)
       {
-        binary.push(power2 < intNum);
+        binary.push(power2 <= intNum);
         if(binary[binary.length-1])
         {
           intNum -= power2;
@@ -112,9 +112,6 @@ class Float
       power2 = power2 << 1;
 
     }
-
-    console.log(power2 >> 1);
-
     return power2 >> 1;
   }
 
