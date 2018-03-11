@@ -230,7 +230,9 @@ class Float
     }
 	
 	// Calcule le nombre de zéro devant la décimale
-	let nZeroBefore = nbits - Math.floor(Math.log10(value)+1);
+	let nZeroBefore = 0;
+	if(value != 0)
+		nZeroBefore = nbits - Math.floor(Math.log10(value)+1);
 	
     return [nZeroBefore, value];
   }
