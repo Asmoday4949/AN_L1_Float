@@ -21,7 +21,7 @@ class Float
       this.sizeExponent = 8;
       this.sizeMantissa = this.bits - 1 - this.sizeExponent; //taille de la mantisse
 
-      if(!Float.isSepcialNumber(this, parameters.number))
+      if(!this.isSpecialNumber(this, parameters.number))
       {
         //ne prend pas en compte les ","
         let stringSplit = parameters.number.split(".");
@@ -342,7 +342,7 @@ class Float
     return this;
   }
 
-  static isSepcialNumber(num, input)
+  isSpecialNumber(num, input)
   {
     if(isNaN(input))
     {
