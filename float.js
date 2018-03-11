@@ -102,7 +102,7 @@ class Float
   //En insérant le MSB en premier (Raison de la complication) pour avoir les bits les plus importants si le nombre est trop grand
   convertIntToBin(intNum, size = -1)
   {
-    intNum = parseInt(intNum);
+    intNum = Math.abs(parseInt(intNum));
 
     if(intNum === 0)
     {
