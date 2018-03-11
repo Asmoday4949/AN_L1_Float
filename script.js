@@ -17,6 +17,7 @@ function createFloat()
 
 
   document.getElementById("resultToBinary").innerHTML = strResult;
+  //document.getElementById("resultToDecimalFromBinary").innerHTML = float.toString();
 }
 
 function createFloatWithBinary()
@@ -27,6 +28,7 @@ function createFloatWithBinary()
 
   let parameters = {sign: sign, exponent: exponent, mantissa: mantissa};
   let float = new Float(parameters, "binToDec");
+  //document.getElementById("resultToDecimal").innerHTML = float.toString();
 }
 
 function displayBoolArrayToOneZero(arrBooleans)
@@ -37,6 +39,10 @@ function displayBoolArrayToOneZero(arrBooleans)
     if(arrBooleans[i])
     {
       string += "1";
+    }
+    else if(arrBooleans[i] === undefined)
+    {
+        string += "X";
     }
     else
     {
