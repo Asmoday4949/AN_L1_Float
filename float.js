@@ -294,25 +294,39 @@ class Float
     floatStr += this.convertBinToInt(binInt);
     floatStr += ".";
 
-	// Ajoute des zéros devant la valeur décimale
-	let dec = this.convertBinToDec(binDec);
-	for(let i = 0; i < dec[0]; i++)
-	{
-		floatStr += "0";
-	}
+  	// Ajoute des zéros devant la valeur décimale
+  	let dec = this.convertBinToDec(binDec);
+  	for(let i = 0; i < dec[0]; i++)
+  	{
+  		floatStr += "0";
+  	}
     floatStr += dec[1];
 
     return floatStr;
   }
 
+  //https://www.youtube.com/watch?v=mKJiD2ZAlwM
   add(float)
   {
+    let bigExponent = findBiggestExponent(this, float);
+    let smallExponent = bigExponent === this ? this : float;
 
   }
 
-  soustract(float)
+  findBiggestExponent(float1, float2)
   {
-
+    for(let i = 0; i < float1.exponent.length; i++)
+    {
+      if(float1[i] && !float2[i])
+      {
+        return float1;
+      }
+      else if(!float1[i] && float2[i])
+      {
+        return float2;
+      }
+    }
+    return float1;
   }
 
   changeToInfinity(sign)
@@ -324,7 +338,7 @@ class Float
     return this;
   }
 
-  isInfini()
+  isInfinity()
   {
     this.exponent.forEach(function(item){
       if(item != true)
