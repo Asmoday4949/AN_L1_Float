@@ -100,15 +100,25 @@ class Float
 
   //convertit la partie entière en binaire
   //En insérant le MSB en premier (Raison de la complication) pour avoir les bits les plus importants si le nombre est trop grand
-  convertIntToBin(intNum)
+  convertIntToBin(intNum, size = -1)
   {
+    intNum = parseInt(intNum);
+
     if(intNum === 0)
     {
       return [false];
     }
     else
     {
-      let power2 = this.searchBiggestSmaller2Pow(intNum);
+      let power2 = 0;
+      if(size === -1)
+      {
+        power2 = this.searchBiggestSmaller2Pow(intNum);
+      }
+      else
+      {
+        power2 = Math.pow(2, size - 1);
+      }
       let binary = [];
 
       while(power2 > 0 && binary.length < this.sizeMantissa)
@@ -149,17 +159,18 @@ class Float
     //seul cas ou decPart[0] est [0] est quand le nombre ressemble à 0.XXXX et exposant sera négatif
     if(intPart.length === 1 && !intPart[0])
     {
-      let i = -1;
+      let i = 0;
+      binary = intPart.concat(decPart);
 
       // recherche le premier 1 dans la partie décimale
-      do
+      while(!binary[i])
       {
         exponent--;
         i++;
-      } while(!decPart[i]);
+      }
 
       //garde tous les éléments de la partie décimale du premier 1 non inclu jusqu'à la fin
-      binary = decPart.slice(i+1);
+      binary = binary.slice(i+1);
     }
     else
     {
@@ -181,7 +192,7 @@ class Float
   convertExponentToBin(exponent)
   {
     exponent += Math.pow(2, this.sizeExponent-1) - 1 ;
-    this.exponent = this.convertIntToBin(exponent);
+    this.exponent = this.convertIntToBin(exponent, this.sizeExponent);
     this.fill(false, this.exponent, this.sizeExponent);
   }
 
