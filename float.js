@@ -32,7 +32,7 @@ class Float
 
       this.sign = !(parseInt(this.intNum) >= 0);
       let decExponent = this.mergeIntDecBin(this.convertIntToBin(intNum), this.convertDecToBin(decNum));
-      this.convertExponentToBin(decExponent);
+      this.exponent = this.convertExponentToBin(decExponent);
     }
 
     // Code de test afin de vérifier le bon fonctionnement de la conversion SEM to SED
