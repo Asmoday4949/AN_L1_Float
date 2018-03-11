@@ -146,8 +146,8 @@ class Float
     let binary = [];
     let exponent = 0;
 
-    //seul cas ou decPart est [0] est quand le nombre ressemble à 0.XXXX et exposant sera négatif
-    if(decPart.length === 1 && !decPart[0])
+    //seul cas ou decPart[0] est [0] est quand le nombre ressemble à 0.XXXX et exposant sera négatif
+    if(intPart.length === 1 && !intPart[0])
     {
       let i = -1;
 
@@ -228,12 +228,12 @@ class Float
       value += binary[i] * factor/divisor;
       divisor *= 2;
     }
-	
+
 	// Calcule le nombre de zéro devant la décimale
 	let nZeroBefore = 0;
 	if(value != 0)
 		nZeroBefore = nbits - Math.floor(Math.log10(value)+1);
-	
+
     return [nZeroBefore, value];
   }
 
@@ -282,7 +282,7 @@ class Float
 
     floatStr += this.convertBinToInt(binInt);
     floatStr += ".";
-	
+
 	// Ajoute des zéros devant la valeur décimale
 	let dec = this.convertBinToDec(binDec);
 	for(let i = 0; i < dec[0]; i++)
