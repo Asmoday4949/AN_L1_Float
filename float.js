@@ -269,9 +269,11 @@ class Float
 
   changeToInfinity(sign)
   {
+    //BUG : JavaScript dit que ce n'est pas une fct :c
     this.sign = sign;
     this.fill(true, this.exponent, this.sizeExponent);
     this.fill(false, this.mantissa, this.sizeMantissa);
+    return this;
   }
 
   isInfini()
@@ -292,6 +294,7 @@ class Float
     this.sign = true;
     this.fill(true, this.exponent, this.sizeExponent);
     this.fill(undefined, this.mantissa, this.sizeMantissa); // Faire un test si fonctionnel
+    return this;
   }
 
   isNotaN() //isNaN is est un fct du langage Javascript -> nom occupe
@@ -311,15 +314,16 @@ class Float
   {
     this.sign = sign;
     //Trouvez l'encodage
+    return this;
   }
 
   static isSepcialNumber(num, input)
   {
     if(isNaN(input))
     {
-      if(input.toLowerCase().search(/infinity/))
+      if(input.search(/infini/i) != -1)
       {
-        if(input.search(/-/)) //s'il est explicitement negatif
+        if(input.search(/-/) != -1) //s'il est explicitement negatif
         {
           this.changeToInfinity(false);
         }
@@ -328,9 +332,9 @@ class Float
           this.changeToInfinity(true);
         }
       }
-      else if(input.toLowerCase().search(/pi/))
+      else if(input.toLowerCase().search(/pi/i) != -1)
       {
-        if(input.search(/-/)) //s'il est explicitement negatif
+        if(input.search(/-/) != -1) //s'il est explicitement negatif
         {
           this.changeToPi(false);
         }
