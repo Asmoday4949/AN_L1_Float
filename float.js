@@ -107,6 +107,8 @@ class Float
 
     }
 
+    console.log(power2 >> 1);
+
     return power2 >> 1;
   }
 
