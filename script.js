@@ -2,6 +2,7 @@
 Authors : Biloni Kim, Fleury Malik, Bulloni Lucas
 Description : main script
 */
+//traitement du premier formulaire
 function createFloat()
 {
   let inputVal = document.getElementById("float").value;
@@ -10,9 +11,9 @@ function createFloat()
   let parameters = {number: inputVal, bits: nbBits};
   let float = new Float(parameters);
 
-  let strResult = `<span class="sign">${displayBoolArrayToOneZero([float.sign])}</span>`.concat(
-    `<span class="exponent">${displayBoolArrayToOneZero(float.exponent)}</span>`,
-    `<span class="mantissa">${displayBoolArrayToOneZero(float.mantissa)}</span>`
+  let strResult = `<span class="sign">${boolArrayToOneZero([float.sign])}</span>`.concat(
+    `<span class="exponent">${boolArrayToOneZero(float.exponent)}</span>`,
+    `<span class="mantissa">${boolArrayToOneZero(float.mantissa)}</span>`
   );
 
 
@@ -20,18 +21,20 @@ function createFloat()
   //document.getElementById("resultToDecimalFromBinary").innerHTML = float.toString();
 }
 
+//traitement du deuxième formulaire
 function createFloatWithBinary()
 {
   let sign = document.getElementById("sign").value;
   let exponent = document.getElementById("exponent").value;
   let mantissa = document.getElementById("mantissa").value;
 
-  let parameters = {sign: sign, exponent: exponent, mantissa: mantissa};
+  let parameters = {sign: oneZeroToBoolArray(sign), exponent: oneZeroToBoolArray(exponent), mantissa: oneZeroToBoolArray(mantissa)};
   let float = new Float(parameters, "binToDec");
-  //document.getElementById("resultToDecimal").innerHTML = float.toString();
+  document.getElementById("resultToDecimal").innerHTML = float.toString();
 }
 
-function displayBoolArrayToOneZero(arrBooleans)
+//convertit un tableau de booléen en chaine de charactère
+function boolArrayToOneZero(arrBooleans)
 {
   let string = "";
   for(let i = 0; i < arrBooleans.length; i++)
@@ -51,4 +54,16 @@ function displayBoolArrayToOneZero(arrBooleans)
   }
 
   return string;
+}
+//convertit un chaine de charactère de 1 et 0 en tableau de booléen
+function oneZeroToBoolArray(string)
+{
+  let arrBool = [];
+
+  for(let i = 0; i < string.length; i++)
+  {
+    arrBool.push(Boolean(parseInt(string.charAt(i))));
+  }
+
+  return arrBool;
 }
