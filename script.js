@@ -10,3 +10,14 @@ function createFloat()
   let parameters = {number: inputVal, bits: nbBits};
   let float = new Float(parameters);
 }
+
+function createFloatWithBinary()
+{
+  let sign = document.getElementById("sign").value;
+  let exponent = document.getElementById("exponent").value;
+  let mantissa = document.getElementById("mantissa").value;
+
+  let parameters = {sign: sign, exponent: exponent, mantissa: mantissa};
+  let float = new Float(parameters, "binToDec")
+
+}

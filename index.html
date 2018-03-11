@@ -26,10 +26,30 @@
       <label for="nbBits">
         Bits :<br />
         <input type="number" name="nbBits" id="nbBits" value="32" placeholder="Float">
-      </label>
+      </label><br />
       <label for="float">
         Float :<br />
         <input type="text" name="float" id="float" placeholder="Float">
+      </label>
+      <div>
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+
+    <hr />
+
+    <form method="post" action="#" onsubmit="createFloatWithBinary(); return false;">
+      <label for="sign">
+        Signe :<br />
+        <input type="number" name="sign" id="sign" value="0" min="0" max="1" placeholder="sign">
+      </label><br />
+      <label for="exponent">
+        Exposant :<br />
+        <input type="text" name="exponent" id="exponent" placeholder="exponent">
+      </label><br />
+      <label for="mantissa">
+        Mantisse :<br />
+        <input type="text" name="mantissa" id="mantissa" placeholder="mantissa">
       </label>
       <div>
         <button type="submit">Submit</button>
