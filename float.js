@@ -236,16 +236,11 @@ class Float
 
     for(let i = 0;i < nbits; ++i)
     {
-      value += binary[i] * factor/divisor;
+      value += binary[i] * 1/divisor;
       divisor *= 2;
     }
 
-	// Calcule le nombre de zéro devant la décimale
-	let nZeroBefore = 0;
-	if(value != 0)
-		nZeroBefore = nbits - Math.floor(Math.log10(value)+1);
-
-    return [nZeroBefore, value];
+    return value;
   }
 
   // Permet d'obtenir la partie entière et la partie décimale en binaire à partir de la convention SEM
@@ -262,7 +257,7 @@ class Float
 
 	let binIntPart;
 	let binDecPart;
-	
+
 	// Si l'exposant est positif
 	if(realExponent >= 0)
 	{
@@ -278,11 +273,11 @@ class Float
 	else
 	{
 		realExponent = Math.abs(realExponent) - 1;
-		
+
 		binIntPart = [false];
 		binDecPart = Array.from(this.mantissa);
 		binDecPart.unshift(true);
-		
+
 		// Ajout de zéros devant le bit implicite (caché)
 		for(let i = 0;i < realExponent; i++)
 		{
@@ -314,16 +309,7 @@ class Float
       floatStr += "+";
     }
 
-    floatStr += this.convertBinToInt(binInt);
-    floatStr += ".";
-	
-	// Ajoute des zéros devant la valeur décimale
-	let dec = this.convertBinToDec(binDec);
-	for(let i = 0; i < dec[0]; i++)
-	{
-		floatStr += "0";
-	}
-    floatStr += dec[1];
+    floatStr += (this.convertBinToInt(binInt) + this.convertBinToDec(binDec));
 
     return floatStr;
   }
