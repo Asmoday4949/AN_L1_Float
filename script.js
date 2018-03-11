@@ -9,7 +9,14 @@ function createFloat()
 
   let parameters = {number: inputVal, bits: nbBits};
   let float = new Float(parameters);
-  console.log(float.toString());
+
+  let strResult = `<span class="sign">${displayBoolArrayToOneZero([float.sign])}</span>`.concat(
+    `<span class="exponent">${displayBoolArrayToOneZero(float.exponent)}</span>`,
+    `<span class="mantissa">${displayBoolArrayToOneZero(float.mantissa)}</span>`
+  );
+
+
+  document.getElementById("resultToBinary").innerHTML = strResult;
 }
 
 function createFloatWithBinary()
@@ -20,5 +27,22 @@ function createFloatWithBinary()
 
   let parameters = {sign: sign, exponent: exponent, mantissa: mantissa};
   let float = new Float(parameters, "binToDec");
-console.log(float.toString());
+}
+
+function displayBoolArrayToOneZero(arrBooleans)
+{
+  let string = "";
+  for(let i = 0; i < arrBooleans.length; i++)
+  {
+    if(arrBooleans[i])
+    {
+      string += "1";
+    }
+    else
+    {
+        string += "0";
+    }
+  }
+
+  return string;
 }

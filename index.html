@@ -16,12 +16,30 @@
       }
       input
       {
-        width : 230px;
+        width: 230px;
       }
+      .sign
+      {
+        color: red;
+      }
+      .exponent
+      {
+        color: blue;
+      }
+
+      .mantissa
+      {
+        color: green;
+      }
+
     </style>
   </head>
   <body>
     <h1>Float</h1>
+    <hr />
+
+    <h2>Convertir un nombre décimale en binaire</h2>
+
     <form method="post" action="#" onsubmit="createFloat(); return false;">
       <label for="nbBits">
         Bits :<br />
@@ -36,7 +54,15 @@
       </div>
     </form>
 
+    <p><strong>Résultat</strong></p>
+
+    <p> binaire : <span id="resultToBinary"></span></p>
+    <p> code couleur : <span class="sign">Signe</span> <span class="exponent">Exposant</span> <span class="mantissa">Mantisse</span></p>
+    <p> Reconversion en binaire : <span id="resultToDecimalFromBinary"></span>
+
     <hr />
+
+    <h3>Convertir un nombre binaire en décimale</h2>
 
     <form method="post" action="#" onsubmit="createFloatWithBinary(); return false;">
       <label for="sign">
@@ -56,6 +82,47 @@
       </div>
     </form>
 
+    <p>Le développement a été fait en utilisant des fonctionnalités ES2015, si ça ne fonctionne pas correctement vérifier que votre navigateur et sa version support ces fonctionnalités</p>
+
+    <h3>Taille de l'exposant</h3>
+    <p>
+      La taille de l'exposant a été calculé en interpollant les données de la norme IEEE 754.
+
+      <table>
+        <tr>
+          <th>Taille en bits</th>
+          <th>Taille de l'exposant</th>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>16</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>32</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td>64</td>
+          <td>11</td>
+        </tr>
+        <tr>
+          <td>128</td>
+          <td>15</td>
+        </tr>
+        <tr>
+          <td>256</td>
+          <td>19</td>
+        </tr>
+      </table>
+
+      L'interpollation a été faite avec Logger Pro.
+      <br />
+      Fonction trouvée : 5*ln(0.15*x)
+    </p>
     <script src="float.js"></script>
     <script src="script.js"></script>
   </body>
