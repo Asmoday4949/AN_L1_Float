@@ -9,6 +9,7 @@ function createFloat()
 
   let parameters = {number: inputVal, bits: nbBits};
   let float = new Float(parameters);
+  console.log(float);
 }
 
 function createFloatWithBinary()
@@ -18,6 +19,6 @@ function createFloatWithBinary()
   let mantissa = document.getElementById("mantissa").value;
 
   let parameters = {sign: sign, exponent: exponent, mantissa: mantissa};
-  let float = new Float(parameters, "binToDec")
+  let float = new Float(parameters, "binToDec");
 
 }
