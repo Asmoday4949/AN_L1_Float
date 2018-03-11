@@ -160,7 +160,7 @@ class Float
       //si le nombre >= 1 alors on concatène les deux tableaux et on supprime le premier 1
       //si le nombre >= 1 le premier bit de intpart sera toujours 1
       binary = intPart.concat(decPart);
-      exponent = binary.length - 1;
+      exponent = intPart.length - 1;
       binary.shift();
     }
 
