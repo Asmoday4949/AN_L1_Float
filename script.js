@@ -24,7 +24,7 @@ function createFloat()
 //traitement du deuxième formulaire
 function createFloatWithBinary()
 {
-  let sign = Boolean(document.getElementById("sign").value);
+  let sign = Boolean(parseInt(document.getElementById("sign").value));
   let exponent = document.getElementById("exponent").value;
   let mantissa = document.getElementById("mantissa").value;
 
