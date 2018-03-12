@@ -35,7 +35,24 @@
     </style>
   </head>
   <body>
-    <h1>Float</h1>
+    <h1>Algorithmes Numériques : Laboratoire 1</h1>
+    <p>
+      Le but de ce laboratoire est de réaliser l'encodage d'un nombre flottant sur un certain nombre de bits à déterminer. Le deuxième objectif est d'implémenter l'addition de deux nombres flottant utilisant l'encodage.
+    </p>
+    <p> 
+      Ce projet a été réalisé dans le cadre du cours d'algorithmes numériques donné par M. Stéphane Gobron durant le semestre de printemps 2018. Ses auteurs sont :
+      <ul>
+        <li>Mme. Kim Aurore Biloni</li>
+        <li>M. Lucas Bulloni</li>
+        <li>M. Malik Fleury</li>
+      </ul>
+    </p>
+    <p>
+      Pour mener à bien notre projet, nous avons fait une brève conception orale reposant sur le cours qui nous a été donné. Nous avons finalement réparti le travail entre les différents membres du groupe. Les points principaux étant les conversions décimal à notre forme d'encodage, le codage des nombres spéciaux et finalement l'addition.
+    </p>
+    <p>
+      Nous avons donc réalisé un encodage en flottant sur un nombre variable de bits. Pour calculer la taille de l'exposant, nous nous sommes appuyés sur la norme IEEE 754. Il est possible de passer du format décimal à binaire et inversement. Nous avons aussi intégré le codage de nombres spéciaux comme l'infini ou NaN. La structure du code est prévue pour que l'intégration de nombres spéciaux supplémentaires (comme le nombre Pi) soit rapide et ne demande pas de grande modification.
+    </p>
     <hr />
 
     <h2>Convertir un nombre décimale en binaire</h2>
