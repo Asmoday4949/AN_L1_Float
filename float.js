@@ -320,8 +320,18 @@ class Float
     let bigExponent = findBiggestExponent(this, float);
     let smallExponent = bigExponent === this ? this : float;
 
+    let newMantissa = this.shiftExponentTo(smallExponent, convertBinToInt(bigExponent.exponent)-convertBinToInt(smallExponent.exponent));
+    let  resAdd = this.binaryIntAdd(bigExponent.mantissa, newMantissa);
+    let exponent = bigExponent.exponent;
+    newMantissa = resAdd.result;
+    if(resAdd.carry)
+    {
+      exponent = this.binIntAdd(exponent, createArrSizeNEqual1(exponent.length));
+    }
 
 
+    let parameters = {sign: bigExponent.sign, exponent: exponent, mantissa: newMantissa};
+    return Float(parameters, "binToDec");
   }
 
   findBiggestExponent(float1, float2)
@@ -341,28 +351,23 @@ class Float
   }
 
   // Permet d'effecter le décalage d'exposant
-  shiftExponentTo(exponent)
+  shiftExponentTo(offset, mantissa)
   {
-    let exponentOffset = Math.pow(2,this.sizeExponent-1)-1;
-    let currentExposent = this.convertBinToInt(this.exponent) - exponentOffset;
+    let arrNewMantissa = mantissa;
 
-    if(exponent > currentExposent)
+    for(let i = 0; i < offset; i++)
     {
-      let shift = exponent-currentExposent;
+      if(i == 0)
+        mantissa.unshift(true);
+      else
+        mantissa.unshift(false);
 
-      for(let i = 0; i < shift; i++)
-      {
-        if(i == 0)
-          this.mantissa.unshift(true);
-        else
-          this.mantissa.unshift(false);
-
-        this.mantissa.pop();
-      }
-      this.exponent = this.convertIntToBin(exponentOffset + exponent);
+      mantissa.pop();
     }
+    return mantissa;
   }
 
+  //addition binaire
   binaryIntAdd(arr1, arr2)
   {
     let result;
@@ -381,7 +386,7 @@ class Float
       }
     }
 
-    return result;
+    return {result: result, carry: supp};
   }
 
   // crée un tableau de taille N qui est égale à 1 décimal
@@ -402,7 +407,7 @@ class Float
     {
       arr[i] = !arr[i];
     }
-    return binaryIntAdd(arr, createArrSizeNEqual1(size.length));
+    return binaryIntAdd(arr, createArrSizeNEqual1(size.length)).result;
   }
 
   changeToInfinity(sign)

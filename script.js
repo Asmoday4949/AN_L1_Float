@@ -66,3 +66,18 @@ function oneZeroToBoolArray(string)
 
   return arrBool;
 }
+
+function addition()
+{
+  let nbBits = document.getElementById("nbBits").value;
+  let num1 = document.getElementById("num1").value;
+  let num2 = document.getElementById("num2").value;
+
+  let parameters1 = {number: num1, bits: nbBits};
+  let parameters2 = {number: num2, bits: nbBits};
+  let f1 = new Float(parameters1);
+  let f2 = new Float(parameters2);
+
+  let result = f1.add(f2);
+  document.getElementById("resultToDecimal").innerHTML = result.toString();
+}
