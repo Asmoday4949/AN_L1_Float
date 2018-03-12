@@ -320,6 +320,8 @@ class Float
     let bigExponent = findBiggestExponent(this, float);
     let smallExponent = bigExponent === this ? this : float;
 
+
+
   }
 
   findBiggestExponent(float1, float2)
@@ -359,6 +361,48 @@ class Float
       }
       this.exponent = this.convertIntToBin(exponentOffset + exponent);
     }
+  }
+
+  binaryIntAdd(arr1, arr2)
+  {
+    let result;
+    let supp = false;
+    for(let i = 0; i < arr1.length; i++)
+    {
+      result.push((arr1[i] ^ arr2[i]) ^ supp);
+
+      if(arr1[i] && arr2[i])
+      {
+        supp = true;
+      }
+      else
+      {
+        supp = false;
+      }
+    }
+
+    return result;
+  }
+
+  // crée un tableau de taille N qui est égale à 1 décimal
+  createArrSizeNEqual1(n)
+  {
+    let arr = [true];
+    for(let i = 0; i < n - 1; i++)
+    {
+      arr.unshift(false);
+    }
+
+    return arr;
+  }
+
+  complement2(arr)
+  {
+    for(let i = 0; i < arr.length; i++)
+    {
+      arr[i] = !arr[i];
+    }
+    return binaryIntAdd(arr, createArrSizeNEqual1(size.length));
   }
 
   changeToInfinity(sign)
