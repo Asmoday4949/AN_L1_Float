@@ -16,7 +16,6 @@ function createFloat()
     `<span class="mantissa">${boolArrayToOneZero(float.mantissa)}</span>`
   );
 
-
   document.getElementById("resultToBinary").innerHTML = strResult;
   document.getElementById("resultToDecimalFromBinary").innerHTML = float.toString();
 }

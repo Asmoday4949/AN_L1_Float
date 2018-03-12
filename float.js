@@ -338,6 +338,29 @@ class Float
     return float1;
   }
 
+  // Permet d'effecter le décalage d'exposant
+  shiftExponentTo(exponent)
+  {
+    let exponentOffset = Math.pow(2,this.sizeExponent-1)-1;
+    let currentExposent = this.convertBinToInt(this.exponent) - exponentOffset;
+
+    if(exponent > currentExposent)
+    {
+      let shift = exponent-currentExposent;
+
+      for(let i = 0; i < shift; i++)
+      {
+        if(i == 0)
+          this.mantissa.unshift(true);
+        else
+          this.mantissa.unshift(false);
+
+        this.mantissa.pop();
+      }
+      this.exponent = this.convertIntToBin(exponentOffset + exponent);
+    }
+  }
+
   changeToInfinity(sign)
   {
     //BUG : JavaScript dit que ce n'est pas une fct :c
