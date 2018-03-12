@@ -317,12 +317,13 @@ class Float
   //https://www.youtube.com/watch?v=mKJiD2ZAlwM
   add(float)
   {
-    let bigExponent = findBiggestExponent(this, float);
+    let bigExponent = this.findBiggestExponent(this, float);
     let smallExponent = bigExponent === this ? this : float;
 
-    let newMantissa = this.shiftExponentTo(smallExponent, convertBinToInt(bigExponent.exponent)-convertBinToInt(smallExponent.exponent));
+    let newMantissa = this.shiftExponentTo(this.convertBinToInt(bigExponent.exponent)-this.convertBinToInt(smallExponent.exponent), smallExponent.mantissa);
     let  resAdd = this.binaryIntAdd(bigExponent.mantissa, newMantissa);
     let exponent = bigExponent.exponent;
+    console.log(resAdd);
     newMantissa = resAdd.result;
     if(resAdd.carry)
     {
@@ -331,7 +332,8 @@ class Float
 
 
     let parameters = {sign: bigExponent.sign, exponent: exponent, mantissa: newMantissa};
-    return Float(parameters, "binToDec");
+
+    return new Float(parameters, "binToDec");
   }
 
   findBiggestExponent(float1, float2)
@@ -364,13 +366,14 @@ class Float
 
       mantissa.pop();
     }
+
     return mantissa;
   }
 
   //addition binaire
   binaryIntAdd(arr1, arr2)
   {
-    let result;
+    let result = [];
     let supp = false;
     for(let i = 0; i < arr1.length; i++)
     {

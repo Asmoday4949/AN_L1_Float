@@ -79,5 +79,5 @@ function addition()
   let f2 = new Float(parameters2);
 
   let result = f1.add(f2);
-  document.getElementById("resultToDecimal").innerHTML = result.toString();
+  document.getElementById("resultAdd").innerHTML = result.toString();
 }
